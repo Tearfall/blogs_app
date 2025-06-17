@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Inertia\Inertia;
 
 class AuthController extends Controller
 {
+    public function index(){
+        return Inertia::render('Auth/Index');
+    }
+
     public function register(Request $request){
 
         $fields = $request->validate([
@@ -47,7 +52,7 @@ class AuthController extends Controller
             'token' => $token->plainTextToken
         ] ;
     }
-    
+
     public function logout(Request $request){
 
         $request->user()->tokens()->delete();
