@@ -10,3 +10,5 @@ Route::get('/', function (){
 });
 
 Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
+Route::get('/post', [PostController::class, 'index'])->name('post.index');
+

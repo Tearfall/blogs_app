@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Routing\Controllers\Middleware;
 use App\Repositories\Interfaces\PostRepositoryInterface;
+use Inertia\Inertia;
 
 class PostController extends Controller implements HasMiddleware
 {
@@ -25,7 +26,8 @@ class PostController extends Controller implements HasMiddleware
 
     public function index()
     {
-        return $this->postRepository->getAllPosts();
+        $posts = $this->postRepository->getAllPosts();
+        return Inertia::render('Post/Index', ['posts' => $posts]);
     }
 
     public function store(Request $request)
