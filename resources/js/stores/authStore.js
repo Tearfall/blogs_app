@@ -19,8 +19,38 @@ export const useAuthStore = defineStore('auth', {
     },
 
     actions: {
+        // Setup axios interceptors
+        setupAxiosInterceptors() {
+            // Request interceptor to add auth token
+            axios.interceptors.request.use(
+                (config) => {
+                    if (this.token) {
+                        config.headers.Authorization = `Bearer ${this.token}`;
+                    }
+                    return config;
+                },
+                (error) => {
+                    return Promise.reject(error);
+                }
+            );
+
+            // Response interceptor to handle token expiration
+            axios.interceptors.response.use(
+                (response) => response,
+                async (error) => {
+                    if (error.response?.status === 401 && this.token) {
+                        // Token expired or invalid, logout user
+                        await this.logout();
+                        // Optionally redirect to login page
+                        // router.push('/login');
+                    }
+                    return Promise.reject(error);
+                }
+            );
+        },
         // Initialize auth state (call this on app startup)
         async initAuth() {
+            this.setupAxiosInterceptors();
             // Check if we're in a browser environment
             if (typeof window !== 'undefined' && window.localStorage) {
                 const token = localStorage.getItem('auth_token');
