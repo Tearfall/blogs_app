@@ -1,12 +1,4 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <!-- Header -->
-    <div class="flex justify-between bg-blue-600 text-white py-4 px-6 shadow-md">
-      <h1 class="text-2xl font-bold">Social Posts</h1>
-      <button @click="logout">Logout</button>
-    </div>
-
-    <div class="max-w-2xl mx-auto py-6 px-4">
       <!-- Create Post Button -->
       <div v-if="!showCreateForm" class="bg-white rounded-lg shadow-sm p-4 mb-6">
         <button
@@ -40,8 +32,6 @@
         @save="handleSaveEdit"
         @cancel="editingPost = null"
       />
-    </div>
-  </div>
 </template>
 
 <script>
@@ -50,7 +40,7 @@ import CreatePostForm from '../Post/Components/CreatePostForm.vue'
 import EditPostForm from '../Post/Components/EditPostForm.vue'
 import PostList from '../Post/Components/PostList.vue'
 import { usePostStore } from '../../stores/postStore'
-import { useAuthStore } from '../../stores/authStore'
+import AuthLayout from '../../Layouts/AuthLayout.vue'
 
 export default {
   name: 'PostIndex',
@@ -59,6 +49,7 @@ export default {
     EditPostForm,
     PostList
   },
+  layout: AuthLayout,
   props: {
     posts: {
         type: Array,
@@ -66,7 +57,6 @@ export default {
     }
   },
   setup(props) {
-    const { initAuth, logout } = useAuthStore()
     const {
         fetchPosts,
         createPost,
@@ -99,11 +89,6 @@ export default {
       editingPost.value = null
     }
 
-    onMounted(() => {
-      // Any initialization logic can go here
-      initAuth()
-    })
-
     return {
       editingPost,
       showCreateForm,
@@ -111,7 +96,6 @@ export default {
       handleDeletePost,
       handleEditPost,
       handleSaveEdit,
-      logout
     }
   }
 }
