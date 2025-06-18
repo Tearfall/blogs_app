@@ -63,7 +63,7 @@
 
 <script>
 import { ref, reactive } from 'vue'
-import { useAuthStore } from '../../stores/authStore'
+import { useAuthStore } from '../../../stores/authStore'
 
 export default {
   name: 'Login',

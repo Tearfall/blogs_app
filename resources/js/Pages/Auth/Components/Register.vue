@@ -94,7 +94,7 @@
 
 <script>
 import { ref, reactive, watch } from 'vue'
-import { useAuthStore } from '../../stores/authStore'
+import { useAuthStore } from '../../../stores/authStore'
 
 export default {
   name: 'Register',

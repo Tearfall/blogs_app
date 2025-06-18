@@ -31,8 +31,8 @@
 
 <script>
 import { ref } from 'vue'
-import Login from './Login.vue'
-import Register from './Register.vue'
+import Login from './Components/Login.vue'
+import Register from './Components/Register.vue'
 
 export default {
   name: 'AuthIndex',
