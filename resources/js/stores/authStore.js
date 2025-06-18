@@ -43,7 +43,7 @@ export const useAuthStore = defineStore('auth', {
                         // Token expired or invalid, logout user
                         await this.logout();
                         // Optionally redirect to login page
-                        // router.push('/login');
+                        router.visit(route('login'))
                     }
                     return Promise.reject(error);
                 }
@@ -172,7 +172,7 @@ export const useAuthStore = defineStore('auth', {
                 // Remove axios default header
                 delete axios.defaults.headers.common['Authorization'];
 
-                router.visit(route('auth.index'))
+                router.visit(route('login'))
             }
         },
 

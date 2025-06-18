@@ -9,6 +9,9 @@ Route::get('/', function (){
     return inertia('Home');
 });
 
-Route::get('/auth', [AuthController::class, 'index'])->name('auth.index');
-Route::get('/post', [PostController::class, 'index'])->name('post.index');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/posts', [PostController::class, 'index'])->name('post.index');
+});
 
