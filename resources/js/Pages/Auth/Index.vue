@@ -1,5 +1,6 @@
 <template>
-  <div class="bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen flex items-center justify-center p-4">
+  <div class="bg-gradient-to-br from-gray-200 to-indigo-400 min-h-screen flex flex-col items-center justify-center p-4">
+
     <div class="bg-white rounded-2xl shadow-xl p-8 w-full max-w-md transform transition-all duration-300 hover:shadow-2xl">
       <!-- Toggle Buttons -->
       <div class="flex mb-8 bg-gray-100 rounded-lg p-1">
@@ -18,7 +19,10 @@
           Register
         </button>
       </div>
-
+    <!-- Logo on top -->
+    <div class="flex justify-center mb-6">
+      <img src="../../Assets/logo.png" alt="Echoes Logo" class="w-30 h-30 object-cover rounded-full shadow-lg " />
+    </div>
       <!-- Login Form -->
       <Login v-if="isLogin"/>
 
