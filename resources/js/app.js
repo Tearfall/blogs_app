@@ -2,6 +2,7 @@ import './bootstrap';
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import { createPinia} from 'pinia';
+import { ZiggyVue } from 'ziggy-js'
 import  '../css/app.css';
 
 /* import the fontawesome core */
@@ -28,6 +29,7 @@ createInertiaApp({
       .component('font-awesome-icon', FontAwesomeIcon)
       .use(plugin)
       .use(pinia)
+      .use(ZiggyVue)
       .mount(el)
   },
 })
