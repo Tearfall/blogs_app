@@ -1,8 +1,9 @@
 <template>
   <div class="min-h-screen bg-gray-100">
     <!-- Header -->
-    <div class="bg-blue-600 text-white py-4 px-6 shadow-md">
+    <div class="flex justify-between bg-blue-600 text-white py-4 px-6 shadow-md">
       <h1 class="text-2xl font-bold">Social Posts</h1>
+      <button @click="logout">Logout</button>
     </div>
 
     <div class="max-w-2xl mx-auto py-6 px-4">
@@ -65,7 +66,7 @@ export default {
     }
   },
   setup(props) {
-    const { initAuth } = useAuthStore()
+    const { initAuth, logout } = useAuthStore()
     const {
         fetchPosts,
         createPost,
@@ -109,7 +110,8 @@ export default {
       handleCreatePost,
       handleDeletePost,
       handleEditPost,
-      handleSaveEdit
+      handleSaveEdit,
+      logout
     }
   }
 }
