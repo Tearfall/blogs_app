@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import { router } from "@inertiajs/vue3";
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
@@ -89,6 +90,8 @@ export const useAuthStore = defineStore('auth', {
                         localStorage.setItem('auth_token', this.token);
                     }
 
+                    router.visit(route('post.index'))
+
                     // Set axios default header
                     axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 
@@ -125,6 +128,8 @@ export const useAuthStore = defineStore('auth', {
 
                     // Set axios default header
                     axios.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
+
+                    router.visit(route('post.index'))
 
                     return { success: true, data: response.data };
                 } else if (response.data.message) {
@@ -166,6 +171,8 @@ export const useAuthStore = defineStore('auth', {
 
                 // Remove axios default header
                 delete axios.defaults.headers.common['Authorization'];
+
+                router.visit(route('auth.index'))
             }
         },
 
