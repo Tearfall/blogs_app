@@ -56,7 +56,10 @@ createInertiaApp({
       .use(ZiggyVue)
       .use(PrimeVue, {
             theme: {
-                preset: MyPreset
+                preset: MyPreset,
+                options: {
+                    darkModeSelector: 'light',
+                }
             }
       })
       .component('Button', Button)
