@@ -1,6 +1,6 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <NavBar/>
+        <NavBar :user="user"/>
 
         <!-- Main Content -->
         <div class="max-w-2xl mx-auto py-6 px-4">
@@ -18,9 +18,13 @@
             NavBar
         },
         setup(){
-            const { initAuth } = useAuthStore()
+            const { initAuth, getUser } = useAuthStore()
 
             onMounted(() =>{ initAuth })
+
+            return {
+                user : getUser
+            }
         }
     }
 </script>
