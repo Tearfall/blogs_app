@@ -4,6 +4,7 @@
       <h1 class="text-2xl font-bold">echoes</h1>
 
       <div v-if="user">{{ user.name }}</div>
+      <Button >Hello</Button>
       <button @click="logout">Logout</button>
     </div>
 </template>
