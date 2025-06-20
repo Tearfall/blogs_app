@@ -17,10 +17,10 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 /* import specific icons */
-import { faPlus, faTimes, faEdit, faTrash, faHeart, faComment, faShare, faCheck } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTimes, faEdit, faTrash, faHeart, faComment, faShare, faCheck, faPen } from '@fortawesome/free-solid-svg-icons'
 
 /* add icons to the library */
-library.add(faPlus, faTimes, faEdit, faTrash, faHeart, faComment, faShare, faCheck)
+library.add(faPlus, faTimes, faEdit, faTrash, faHeart, faComment, faShare, faCheck, faPen)
 
 const pinia = createPinia();
 

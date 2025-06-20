@@ -192,13 +192,24 @@ export const useAuthStore = defineStore('auth', {
 
             try {
                 // If you have a user verification endpoint, use it here
-                // const response = await axios.get('/api/user');
-                // this.user = response.data;
+                const response = await axios.get('/api/user');
+                this.user = response.data;
                 return true;
             } catch (error) {
                 // Token is invalid, clear auth state
                 await this.logout();
                 return false;
+            }
+        },
+
+        async updateUserInfo(data) {
+            this.verifyToken()
+
+            try {
+                const response = await axios.put('/api/user', data)
+                this.user = response.data
+            } catch(error){
+                console.log(error)
             }
         }
     }
