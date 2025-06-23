@@ -1,8 +1,9 @@
 FROM richarvey/nginx-php-fpm:1.7.2
 
-
-# Install Node.js and npm (Alpine way)
-RUN apk add --no-cache nodejs npm
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get update \
+    && apt-get install -y nodejs
 
 # Upgrade Composer to version 2
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
