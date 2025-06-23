@@ -1,4 +1,5 @@
 <template>
+    <Head title="Register |"/>
       <form @submit.prevent="handleRegister" class="space-y-6">
         <div class="text-center mb-6">
           <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
