@@ -1,30 +1,32 @@
 <template>
     <div class="min-h-screen bg-gray-100">
-        <NavBar :user="user"/>
+        <NavBar />
 
         <!-- Main Content -->
         <div class="max-w-2xl mx-auto py-6 px-4">
-            <slot/>
+            <slot />
         </div>
     </div>
 </template>
 <script>
-    import { useAuthStore } from '../stores/authStore';
-    import { onMounted } from 'vue';
-    import NavBar from '../Utilities/NavBar.vue';
+import { useAuthStore } from "../stores/authStore";
+import { onMounted, computed } from "vue";
+import NavBar from "../Utilities/NavBar.vue";
 
-    export default {
-        components: {
-            NavBar
-        },
-        setup(){
-            const { initAuth, getUser } = useAuthStore()
+export default {
+    components: {
+        NavBar,
+    },
+    setup() {
+        const authStore = useAuthStore();
 
-            onMounted(() =>{ initAuth })
+        onMounted(() => {
+            authStore.fetchUser();
+        });
 
-            return {
-                user : getUser
-            }
-        }
-    }
+        return {
+
+        };
+    },
+};
 </script>

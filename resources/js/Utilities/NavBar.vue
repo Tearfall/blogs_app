@@ -8,16 +8,14 @@
 </template>
 <script>
     import { useAuthStore } from '../stores/authStore';
-    import { ref } from 'vue'
+    import { ref,computed } from 'vue'
     import { TieredMenu } from 'primevue';
     import { router } from '@inertiajs/vue3'
+    import { usePage } from '@inertiajs/vue3'
 
     export default {
         props: {
-            user: {
-                type: Object,
-                required: true
-            }
+
         },
         components: {
             TieredMenu
@@ -27,13 +25,18 @@
             const selectedMenu = ref()
             const options = ['Profile', 'Logout']
 
+            const page = usePage();
+            const user = computed(() => page.props.auth?.user);
+
             const menu = ref();
             const items = ref([
                 {
                     label: 'Profile',
                     icon: 'pi pi-user',
                     command: () => {
-                        router.visit(route('profile.index', {id: props.user.id}))
+                        if (user.value && user.value.id) {
+                            router.visit(route('profile.index', { id: user.value.id }))
+                        }
                     }
                 },
                 {
@@ -53,13 +56,16 @@
                 menu.value.toggle(event);
             };
 
+
+
             return {
                 selectedMenu,
                 options,
                 logout,
                 toggle,
                 items,
-                menu
+                menu,
+                user
             }
         }
     }

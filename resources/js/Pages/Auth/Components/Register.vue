@@ -1,67 +1,79 @@
 <template>
-    <Head title="Register |"/>
-      <form @submit.prevent="handleRegister" class="space-y-6">
+    <Head title="Register |" />
+    <form @submit.prevent="handleRegister" class="space-y-6">
         <div class="text-center mb-6">
-          <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
-          <p class="text-gray-600 mt-2">Join us today</p>
+            <h2 class="text-3xl font-bold text-gray-900">Create Account</h2>
+            <p class="text-gray-600 mt-2">Join us today</p>
         </div>
 
         <div>
-          <div>
-            <label for="register-name" class="block text-sm font-medium text-gray-700 mb-2">
-              Name
+            <div>
+                <label
+                    for="register-name"
+                    class="block text-sm font-medium text-gray-700 mb-2"
+                >
+                    Name
+                </label>
+                <input
+                    id="register-name"
+                    v-model="registerForm.name"
+                    type="text"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                    placeholder="Name"
+                />
+            </div>
+        </div>
+
+        <div>
+            <label
+                for="register-email"
+                class="block text-sm font-medium text-gray-700 mb-2"
+            >
+                Email Address
             </label>
             <input
-              id="register-name"
-              v-model="registerForm.name"
-              type="text"
+                id="register-email"
+                v-model="registerForm.email"
+                type="email"
                 required
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-              placeholder="Name"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                placeholder="Enter your email"
             />
-          </div>
         </div>
 
         <div>
-          <label for="register-email" class="block text-sm font-medium text-gray-700 mb-2">
-            Email Address
-          </label>
-          <input
-            id="register-email"
-            v-model="registerForm.email"
-            type="email"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-            placeholder="Enter your email"
-          />
+            <label
+                for="register-password"
+                class="block text-sm font-medium text-gray-700 mb-2"
+            >
+                Password
+            </label>
+            <input
+                id="register-password"
+                v-model="registerForm.password"
+                type="password"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                placeholder="Create a password"
+            />
         </div>
 
         <div>
-          <label for="register-password" class="block text-sm font-medium text-gray-700 mb-2">
-            Password
-          </label>
-          <input
-            id="register-password"
-            v-model="registerForm.password"
-            type="password"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-            placeholder="Create a password"
-          />
-        </div>
-
-        <div>
-          <label for="register-confirmPassword" class="block text-sm font-medium text-gray-700 mb-2">
-            Confirm Password
-          </label>
-          <input
-            id="register-confirmPassword"
-            v-model="registerForm.confirmPassword"
-            type="password"
-            required
-            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
-            placeholder="Confirm your password"
-          />
+            <label
+                for="register-confirmPassword"
+                class="block text-sm font-medium text-gray-700 mb-2"
+            >
+                Confirm Password
+            </label>
+            <input
+                id="register-confirmPassword"
+                v-model="registerForm.confirmPassword"
+                type="password"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-colors duration-200"
+                placeholder="Confirm your password"
+            />
         </div>
 
         <!-- <div class="flex items-center">
@@ -80,92 +92,95 @@
         </div> -->
 
         <button
-          type="submit"
-          class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
+            type="submit"
+            :disabled="authStore.loading"
+            class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
         >
-          Create Account
+            <span v-if="authStore.loading">Creating...</span>
+            <span v-else>Create Account</span>
         </button>
-      </form>
+    </form>
 
-      <!-- Success Message -->
-      <div v-if="showMessage" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
+    <!-- Error Message -->
+    <div
+        v-if="authStore.error"
+        class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg"
+    >
+        <p class="text-red-800 text-sm">{{ authStore.error }}</p>
+    </div>
+    <!-- Success Message -->
+    <div
+        v-if="showMessage"
+        class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg"
+    >
         <p class="text-green-800 text-sm">{{ message }}</p>
-      </div>
+    </div>
 </template>
 
 <script>
-import { ref, reactive, watch } from 'vue'
-import { useAuthStore } from '../../../stores/authStore'
+import { ref, reactive } from "vue";
+import { useAuthStore } from "../../../stores/authStore";
 
 export default {
-  name: 'Register',
-  setup() {
-    const {
-        register
-    } = useAuthStore()
+    name: "Register",
+    setup() {
+        const authStore = useAuthStore();
 
-    const showMessage = ref(false)
-    const message = ref('')
+        const showMessage = ref(false);
+        const message = ref("");
 
-    const registerForm = reactive({
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
-    //   acceptTerms: false
-    })
+        const registerForm = reactive({
+            name: "",
+            email: "",
+            password: "",
+            confirmPassword: "",
+        });
 
-    const handleRegister = () => {
-      // Basic validation
-      if (!registerForm.name ||
-          !registerForm.email || !registerForm.password ||
-          !registerForm.confirmPassword) {
-        showNotification('Please fill in all fields')
-        return
-      }
+        const handleRegister = async () => {
+            if (
+                !registerForm.name ||
+                !registerForm.email ||
+                !registerForm.password ||
+                !registerForm.confirmPassword
+            ) {
+                showNotification("Please fill in all fields");
+                return;
+            }
 
-      if (registerForm.password !== registerForm.confirmPassword) {
-        showNotification('Passwords do not match')
-        return
-      }
+            if (registerForm.password !== registerForm.confirmPassword) {
+                showNotification("Passwords do not match");
+                return;
+            }
 
-    //   if (!registerForm.acceptTerms) {
-    //     showNotification('Please accept the terms and conditions')
-    //     return
-    //   }
+            const result = await authStore.register(registerForm);
+            if (result.success) {
+                showNotification("Account created successfully!");
+                Object.assign(registerForm, {
+                    name: "",
+                    email: "",
+                    password: "",
+                    confirmPassword: "",
+                });
+            }
+        };
 
-      // Simulate registration process
-      register(registerForm)
+        const showNotification = (msg) => {
+            message.value = msg;
+            showMessage.value = true;
+            setTimeout(() => {
+                showMessage.value = false;
+            }, 3000);
+        };
 
-      console.log('Registration attempt:', registerForm)
-      showNotification('Account created successfully!')
-
-      // Reset form
-      Object.assign(registerForm, {
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        // acceptTerms: false
-      })
-    }
-
-    const showNotification = (msg) => {
-      message.value = msg
-      showMessage.value = true
-      setTimeout(() => {
-        showMessage.value = false
-      }, 3000)
-    }
-
-    return {
-      registerForm,
-      showMessage,
-      message,
-      handleRegister
-    }
-  }
-}
+        return {
+            registerForm,
+            showMessage,
+            message,
+            handleRegister,
+            authStore,
+        };
+    },
+};
 </script>
 
 <style scoped>

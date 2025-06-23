@@ -88,6 +88,7 @@ import DefaultProfilePicture from '../../Utilities/DefaultProfilePicture.vue';
 import GoBack from '../../Utilities/GoBack.vue';
 import { useAuthStore } from '../../stores/authStore';
 import { ref, reactive, onMounted } from 'vue';
+import { usePage } from '@inertiajs/vue3';
 
 export default {
   layout: AuthLayout,
@@ -151,6 +152,11 @@ export default {
       editMode.value = false;
     };
 
+    // The profile being viewed
+    const profileUser = props.user;
+    // The authenticated user (always available)
+    const authUser = usePage().props.auth?.user;
+
     onMounted(() => {
       initializeForm();
     });
@@ -162,7 +168,8 @@ export default {
       originalUser,
       saveProfile,
       cancelEdit,
-      showSuccessMessage
+      showSuccessMessage,
+      profileUser, authUser
     };
   }
 }

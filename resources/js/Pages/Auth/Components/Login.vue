@@ -50,12 +50,18 @@
 
         <button
           type="submit"
+          :disabled="authStore.loading"
           class="w-full bg-indigo-600 text-white py-3 px-4 rounded-lg hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-colors duration-200 font-medium"
         >
-          Sign In
+          <span v-if="authStore.loading">Signing In...</span>
+          <span v-else>Sign In</span>
         </button>
       </form>
 
+      <!-- Error Message -->
+      <div v-if="authStore.error" class="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <p class="text-red-800 text-sm">{{ authStore.error }}</p>
+      </div>
       <!-- Success Message -->
       <div v-if="showMessage" class="mt-4 p-4 bg-green-50 border border-green-200 rounded-lg">
         <p class="text-green-800 text-sm">{{ message }}</p>
@@ -69,9 +75,7 @@ import { useAuthStore } from '../../../stores/authStore'
 export default {
   name: 'Login',
   setup() {
-    const {
-        login
-    } = useAuthStore()
+    const authStore = useAuthStore();
 
     const showMessage = ref(false)
     const message = ref('')
@@ -82,24 +86,21 @@ export default {
       remember: false
     })
 
-    const handleLogin = () => {
-      // Basic validation
+    const handleLogin = async () => {
       if (!loginForm.email || !loginForm.password) {
         showNotification('Please fill in all fields')
         return
       }
 
-      // Simulate login process
-      console.log('Login attempt:', loginForm)
-      login(loginForm)
-      showNotification('Login successful!')
-
-      // Reset form
-      Object.assign(loginForm, {
-        email: '',
-        password: '',
-        remember: false
-      })
+      const result = await authStore.login(loginForm)
+      if (result.success) {
+        showNotification('Login successful!')
+        Object.assign(loginForm, {
+          email: '',
+          password: '',
+          remember: false
+        })
+      }
     }
 
     const showNotification = (msg) => {
@@ -111,13 +112,11 @@ export default {
     }
 
     return {
-
       loginForm,
-
       showMessage,
       message,
       handleLogin,
-
+      authStore
     }
   }
 }
