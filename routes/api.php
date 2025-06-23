@@ -6,15 +6,15 @@ use App\Http\Controllers\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 
-Route::get('/user', function (Request $request) {
+Route::middleware(['web', 'auth:sanctum'])->get('/user', function (Request $request) {
     return $request->user();
-})->middleware('auth:sanctum');
+});
 
-Route::middleware('auth:sanctum')->apiResource('posts', PostController::class);
+Route::middleware(['web', 'auth:sanctum'])->apiResource('posts', PostController::class);
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+Route::middleware('web')->post('/register', [AuthController::class, 'register']);
+Route::middleware('web')->post('/login', [AuthController::class, 'login']);
+Route::middleware(['web', 'auth:sanctum'])->post('/logout', [AuthController::class, 'logout']);
 
-Route::put('/user/{user}', [UserController::class, 'updateUserInfo'])->middleware('auth:sanctum');
+Route::middleware(['web', 'auth:sanctum'])->put('/user/{user}', [UserController::class, 'updateUserInfo']);
 
