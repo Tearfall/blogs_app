@@ -1,6 +1,6 @@
 import './bootstrap';
 import { createApp, h } from 'vue'
-import { createInertiaApp } from '@inertiajs/vue3'
+import { createInertiaApp, Link, Head } from '@inertiajs/vue3'
 import { createPinia} from 'pinia';
 import { ZiggyVue } from 'ziggy-js'
 import PrimeVue from 'primevue/config';
@@ -44,6 +44,7 @@ const MyPreset = definePreset(Aura, {
 
 
 createInertiaApp({
+  title: title => `${title} Echoes`,
   resolve: name => {
     const pages = import.meta.glob('./Pages/**/*.vue', { eager: true })
     return pages[`./Pages/${name}.vue`]
@@ -62,6 +63,8 @@ createInertiaApp({
                 }
             }
       })
+      .component('Head', Head)
+      .component('Link', Link)
       .component('Button', Button)
       .component('Select', Select)
       .component('Toast', Toast)
